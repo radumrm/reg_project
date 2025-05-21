@@ -17,6 +17,15 @@ def prepare_dataset():
         to_Remove = np.random.choice(df.index, int(0.05 * len(df)), replace = False)
         df.loc[to_Remove, column] = np.nan
     
-    df.to_csv("data_set.csv", index=False)
+    # Amestecam setul de date
+    df = df.sample(frac=1).reset_index(drop=True)
+
+    # Impartim dataset-ul in doua subseturi pentru training si testing (80& cu 20%)
+    df_train = df.iloc[:round(0.8 * len(df))]
+    df_test = df.iloc[round(0.8 * len(df)) + 1:]
+
+    # Exportam cele doua subseturi
+    df_train.to_csv('train.csv', index = False)
+    df_test.to_csv('test.csv', index = False)
 
 prepare_dataset()
