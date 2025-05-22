@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
@@ -12,6 +13,11 @@ df_train, df_test = analyze_data(df_train, df_test)
 
 # Concatenam seturile de date
 df = pd.concat([df_train, df_test])
+
+# Din cauza valoriilor foarte imprastiate folosim o transformare log
+df['realSum'] = np.log1p(df['realSum'])
+
+print(df.describe())
 
 # One hot encoding pentru room-type
 df = pd.get_dummies(df, columns=['room_type'], drop_first=True)

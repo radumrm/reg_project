@@ -7,8 +7,8 @@ def aberante_removal(df, cols):
         if col in df_clean.columns:
             mean = df_clean[col].mean()
             std = df_clean[col].std()
-            lower = mean - std
-            upper = mean + std
+            lower = mean - 3*std
+            upper = mean + 3*std
             df_clean = df_clean[df_clean[col].between(lower, upper)]
     
     return df_clean.reset_index(drop=True)
