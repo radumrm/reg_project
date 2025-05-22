@@ -1,10 +1,10 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import r2_score, confusion_matrix
+from sklearn.linear_model import LinearRegression, Ridge
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.metrics import r2_score
 from aberant_removal import aberante_removal
 from sklearn.model_selection import train_test_split
 from prepare_dataset import prepare_dataset
@@ -42,20 +42,53 @@ X = df.drop(columns=['Unnamed: 0', 'realSum'])
 y = df['realSum']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Train model and evaluate
+# Training Linear Regression
 model = LinearRegression()
 model.fit(X_train, y_train)
 y_pred = model.predict(X_test)
 r2 = r2_score(y_test, y_pred)
 print(f"R2: {r2:.2f}")
 
-# Vizualizăm matricea de confuzie
+# Vizualizăm matricea de erori
 plt.figure(figsize=(6, 5))
 plt.scatter(y_test, y_pred, alpha=0.5)
 plt.grid(True)
-plt.title("Matricea de erori")
+plt.title("Matricea de erori Linear")
 plt.xlabel("Realitate")
 plt.ylabel("Predictii")
-plt.savefig("ERORI.png")
+plt.savefig("LinearRegression.png")
 plt.close()
 
+# Training Ridge Regression
+model = Ridge()
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+r2 = r2_score(y_test, y_pred)
+print(f"Ridge: {r2:.2f}")
+
+# Vizualizăm matricea de erori
+plt.figure(figsize=(6, 5))
+plt.scatter(y_test, y_pred, alpha=0.5)
+plt.grid(True)
+plt.title("Matricea de erori Ridge")
+plt.xlabel("Realitate")
+plt.ylabel("Predictii")
+plt.savefig("Ridge.png")
+plt.close()
+
+# Training Gradient Boosting Regressor
+model = GradientBoostingRegressor()
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+r2 = r2_score(y_test, y_pred)
+print(f"GBR: {r2:.2f}")
+
+# Vizualizăm matricea de erori
+plt.figure(figsize=(6, 5))
+plt.scatter(y_test, y_pred, alpha=0.5)
+plt.grid(True)
+plt.title("Matricea de erori Ridge")
+plt.xlabel("Realitate")
+plt.ylabel("Predictii")
+plt.savefig("GBR.png")
+plt.close()

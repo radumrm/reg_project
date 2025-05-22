@@ -1,6 +1,3 @@
-import pandas as pd
-import numpy as np
-
 def aberante_removal(df, cols):
     df_clean = df.copy()
     for col in cols:
