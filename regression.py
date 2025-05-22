@@ -1,8 +1,10 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 from sklearn.linear_model import LinearRegression
-from sklearn.metrics import r2_score
+from sklearn.metrics import r2_score, confusion_matrix
 from aberant_removal import aberante_removal
 from sklearn.model_selection import train_test_split
 from prepare_dataset import prepare_dataset
@@ -47,4 +49,13 @@ y_pred = model.predict(X_test)
 r2 = r2_score(y_test, y_pred)
 print(f"R2: {r2:.2f}")
 
+# Vizualizăm matricea de confuzie
+plt.figure(figsize=(6, 5))
+plt.scatter(y_test, y_pred, alpha=0.5)
+plt.grid(True)
+plt.title("Matricea de erori")
+plt.xlabel("Realitate")
+plt.ylabel("Predictii")
+plt.savefig("ERORI.png")
+plt.close()
 
