@@ -1,12 +1,10 @@
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-import plotly.graph_objects as go
 # Importuri pentru heatmap pe harta
+import plotly.graph_objects as go
 
-def analyze_data():
-    df_train = pd.read_csv("train.csv")
-    df_test = pd.read_csv("test.csv")
+def analyze_data(df_train, df_test):
 
     # Verificam daca s-au incarcat corect subseturile de data
     print(df_train.head())
@@ -146,3 +144,5 @@ def analyze_data():
     )
     fig = go.Figure(data=[trace], layout=layout)
     fig.write_html("vienna_heatmap.html")
+    
+    return df_train, df_test
