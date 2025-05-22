@@ -1,6 +1,8 @@
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+import plotly.graph_objects as go
+# Importuri pentru heatmap pe harta
 
 def analyze_data():
     df_train = pd.read_csv("train.csv")
@@ -114,4 +116,33 @@ def analyze_data():
     plt.savefig("SCATTERPLOT.png")
     plt.close()
 
-analyze_data()
+    #EXTRA heatmap pe harta, sursa: https://www.kaggle.com/code/thedevastator/airbnb-prices-tripadvisor-ratings-starter + FINETUNING
+    trace = go.Densitymap(
+        lat=df_train["lat"],
+        lon=df_train["lng"],
+        z=df_train['realSum'],
+        radius=100,
+        colorscale="Hot",
+        opacity=0.9,
+        showscale=False,
+        colorbar=dict(title=dict(text="Airbnb Prices", side="top"), thickness=20, ticksuffix="€")
+    )
+
+    mapbox_style = "carto-positron"
+    center_lat = df_train["lat"].mean()
+    center_lon = df_train["lng"].mean()
+    layout = go.Layout(
+    title=dict(
+        text="<b>Vienna</b> (Weekdays)",
+        font=dict(size=16)
+    ),
+    mapbox=dict(
+        style=mapbox_style,
+        center=dict(lat=center_lat, lon=center_lon),
+        zoom=10
+    ),
+    hovermode="closest",
+    margin=dict(l=30, r=30, t=50, b=30)
+    )
+    fig = go.Figure(data=[trace], layout=layout)
+    fig.write_html("vienna_heatmap.html")

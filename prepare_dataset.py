@@ -32,5 +32,3 @@ def prepare_dataset():
     # Exportam cele doua subseturi
     df_train.to_csv('train.csv', index = False)
     df_test.to_csv('test.csv', index = False)
-
-prepare_dataset()
