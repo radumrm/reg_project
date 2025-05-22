@@ -56,7 +56,7 @@ def analyze_data():
         plt.xlabel(cols[i])
         plt.ylabel("Frecventa")
 
-    plt.tight_layout(pad=3)
+    plt.tight_layout(pad = 3)
     plt.savefig("HISTOGRAM.png")
     plt.close()
 
@@ -70,8 +70,48 @@ def analyze_data():
         plt.xlabel(f"{cols[i]}")
         plt.ylabel(f"Frecventa")
 
-    plt.tight_layout(pad=3)
+    plt.tight_layout(pad = 3)
     plt.savefig("COUNTPLOT.png")
+    plt.close()
+
+    # Vizualizarea valorilor aberante pentru realSum, dist si metro_dist
+    cols = ['realSum', 'dist', 'metro_dist']
+    plt.figure(figsize=(17, 5))
+    for i in range(3):
+        plt.subplot(1, 3, i + 1)
+        sns.boxplot(x=df_train[cols[i]])
+        plt.title(f"Boxplot pentru {cols[i]}")
+        plt.xlabel(f"{cols[i]}")
+
+    plt.tight_layout(pad = 3)
+    plt.savefig("BOXPLOT.png")
+    plt.close()
+
+    # Heatmap pentru valori numerice
+    aux = df_train.select_dtypes(include='number').columns
+    cols = [col for col in aux if col not in ['lng', 'lat', 'Unnamed: 0']]
+    corrm = df_train[cols].corr()
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(corrm, annot = True, fmt = ".2f", cmap = "Blues")
+    plt.title("Heatmap")
+    plt.tight_layout()
+    plt.savefig("HEATMAP.png")
+    plt.close()
+
+    # Analiza relatiilor cu variabila tinta, realSum
+    cols = ['dist', 'person_capacity', 'bedrooms']
+    # Salvam in data realSum fara valorile aberante
+    data = df_train[df_train['realSum'] < 3000]['realSum']
+    plt.figure(figsize=(17, 5))
+    for i in range(3):
+        plt.subplot(1, 3, i + 1)
+        sns.scatterplot(x = df_train[cols[i]], y = data)
+        plt.title(f"Relatia dintre pret si {cols[i]}")
+        plt.xlabel(f"{cols[i]}")
+        plt.ylabel("Pret")
+
+    plt.tight_layout(pad = 3)
+    plt.savefig("SCATTERPLOT.png")
     plt.close()
 
 analyze_data()
