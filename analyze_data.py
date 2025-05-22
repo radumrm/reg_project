@@ -1,9 +1,12 @@
 import seaborn as sns
 import matplotlib.pyplot as plt
+import pandas as pd
 # Importuri pentru heatmap pe harta
 import plotly.graph_objects as go
 
-def analyze_data(df_train, df_test):
+def analyze_data():
+    df_train = pd.read_csv("test.csv")
+    df_test = pd.read_csv("train.csv")
 
     # Verificam daca s-au incarcat corect subseturile de data
     print(df_train.head())
@@ -34,8 +37,8 @@ def analyze_data(df_train, df_test):
     df_train.loc[:, 'dist'] = df_train['dist'].fillna(dist_mean)
     df_test.loc[:, 'dist'] = df_test['dist'].fillna(dist_mean)
 
-    # Stat istici descriptive
-    print(df_train.describe())
+    # Statistici descriptive
+    print(df_test.describe())
 
     # Histograma pentru valorile numerice
     aux = df_train.select_dtypes(include='number').columns

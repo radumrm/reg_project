@@ -10,8 +10,8 @@ from sklearn.model_selection import train_test_split
 from prepare_dataset import prepare_dataset
 from analyze_data import analyze_data
 
-df_train, df_test = prepare_dataset()
-df_train, df_test = analyze_data(df_train, df_test)
+#prepare_dataset() # Optional genereaza noi fisiere de test si train
+df_train, df_test = analyze_data()
 
 # Concatenam seturile de date
 df = pd.concat([df_train, df_test])
@@ -87,7 +87,7 @@ print(f"GBR: {r2:.2f}")
 plt.figure(figsize=(6, 5))
 plt.scatter(y_test, y_pred, alpha=0.5)
 plt.grid(True)
-plt.title("Matricea de erori Ridge")
+plt.title("Matricea de erori GBR")
 plt.xlabel("Realitate")
 plt.ylabel("Predictii")
 plt.savefig("GBR.png")

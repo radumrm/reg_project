@@ -14,10 +14,9 @@ def prepare_dataset():
     noise = -np.abs(np.random.normal(loc = 0, scale = 0.1, size = len(df)))
     df['guest_satisfaction_overall'] =  df['guest_satisfaction_overall'] * (noise + 1)
 
-    # Introducem valori lipsa la realSum, dist si guest_satisfaction de 10%
-    for column in ['realSum', 'guest_satisfaction_overall', 'dist']:
-        to_Remove = np.random.choice(df.index, int(0.1 * len(df)), replace = False)
-        df.loc[to_Remove, column] = np.nan
+    for col in ['realSum', 'guest_satisfaction_overall', 'dist']:
+        to_remove = np.random.choice(df.index, int(0.1 * len(df)), replace=False)
+        df.loc[to_remove, col] = np.nan
     
     # Schimbam coloana de dormitoare din float64 in int64
     df['bedrooms'] = df['bedrooms'].astype('int64')
@@ -32,5 +31,3 @@ def prepare_dataset():
     # Exportam cele doua subseturi
     df_train.to_csv('train.csv', index = False)
     df_test.to_csv('test.csv', index = False)
-
-    return df_train, df_test
