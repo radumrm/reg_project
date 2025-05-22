@@ -1,9 +1,6 @@
 import pandas as pd
-import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
-import matplotlib
-matplotlib.use('Agg')
 
 def analyze_data():
     df_train = pd.read_csv("train.csv")
@@ -29,7 +26,7 @@ def analyze_data():
     # Vom completa in campurile lipsa din coloanele 'guest_satisfaction_overall' si 'dist' media
     guest_mean = df_train['guest_satisfaction_overall'].mean()
     dist_mean = df_train['dist'].mean()
-    print(f"Media guest_satisfaction_overall: {guest_mean}")
+    print(f"\nMedia guest_satisfaction_overall: {guest_mean}")
     print(f"Media dist: {dist_mean}\n")
 
     df_train.loc[:, 'guest_satisfaction_overall'] = df_train['guest_satisfaction_overall'].fillna(guest_mean)
@@ -45,21 +42,36 @@ def analyze_data():
     aux = df_train.select_dtypes(include='number').columns
     cols = [col for col in aux if col not in ['lng', 'lat', 'Unnamed: 0']]
 
-    plt.figure(figsize=(16, 10))
+    plt.figure(figsize=(17, 10))
     for i in range(8):
         plt.subplot(2, 4, i + 1)
 
         if cols[i] == 'realSum':
+            # Necesara pentru afisarea corespunzatoare a datelor, ignorand valorile abreante
             data = df_train[df_train[cols[i]] < 3000][cols[i]]
             sns.histplot(data, bins = 20)
         else:
-            sns.histplot(df_train[cols[i]], bins = 10)
+            sns.histplot(df_train[cols[i]], bins = 20)
         plt.title(f"Histograma pentru {cols[i]}")
         plt.xlabel(cols[i])
         plt.ylabel("Frecventa")
 
     plt.tight_layout(pad=3)
     plt.savefig("HISTOGRAM.png")
+    plt.close()
+
+    # Grafice tip countplot pentru variabile categorice
+    cols = ['room_type', 'host_is_superhost']
+    plt.figure(figsize=(10, 5))
+    for i in range(2):
+        plt.subplot(1, 2, i + 1)
+        sns.countplot(x=cols[i], data=df_train)
+        plt.title(f"Countplot pentru {cols[i]}")
+        plt.xlabel(f"{cols[i]}")
+        plt.ylabel(f"Frecventa")
+
+    plt.tight_layout(pad=3)
+    plt.savefig("COUNTPLOT.png")
     plt.close()
 
 analyze_data()
